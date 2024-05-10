@@ -1,10 +1,21 @@
 <?php
 // Kết nối đến cơ sở dữ liệu
-$servername = "mysql-307a12b1-dminhphuong97-d373.c.aivencloud.com";
-$username = "avnadmin";
-$password = "AVNS_tnX-ISdenEn9ep-7iQV";
-$database = "QUANLYSACH";
-$port = 15316;
+$env = file_get_contents("../Model/.env ");
+
+$lines = explode("\n",$env);
+
+foreach($lines as $line){
+  preg_match("/([^#]+)\=(.*)/",$line,$matches);
+  if(isset($matches[2])){
+    putenv(trim($line));
+  }
+} 
+// Kết nối đến cơ sở dữ liệu
+$servername = getenv('servername');
+$username =getenv('username');
+$password = getenv('password');
+$database = getenv('database');
+$port = getenv('port');
 
 try {
     $conn = new PDO("mysql:host=$servername;port=$port;dbname=$database;charset=utf8mb4", $username, $password);
